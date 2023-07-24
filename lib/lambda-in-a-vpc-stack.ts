@@ -1,4 +1,5 @@
 import {
+  CfnOutput,
   Duration,
   Stack,
   StackProps,
@@ -58,5 +59,10 @@ export class LambdaInAVpcStack extends Stack {
         },
       }
     );
+
+    new CfnOutput(this, "getDataLambdaArn", {
+      value: getDataLambda.functionArn,
+      exportName: "getDataLambdaArn",
+    });
   }
 }
