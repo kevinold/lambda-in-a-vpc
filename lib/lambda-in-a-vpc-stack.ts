@@ -6,7 +6,7 @@ import {
   aws_ec2 as ec2,
   aws_lambda as lambda,
 } from "aws-cdk-lib";
-import { Policy, PolicyStatement, Role } from "aws-cdk-lib/aws-iam";
+import { Role } from "aws-cdk-lib/aws-iam";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 import path = require("path");
@@ -66,17 +66,6 @@ export class LambdaInAVpcStack extends Stack {
       this,
       "AmplifyNextjsAppRole",
       "arn:aws:iam::074128318641:role/service-role/AmplifySSRLoggingRole-d1kqtkp3qpk9bt"
-    );
-
-    const policyStatement = new PolicyStatement({
-      actions: ["lambda:InvokeFunction"],
-      resources: [getDataLambda.functionArn],
-    });
-
-    getDataLambda.role?.attachInlinePolicy(
-      new Policy(this, "InvokePolicy", {
-        statements: [policyStatement],
-      })
     );
 
     new CfnOutput(this, "getDataLambdaArn", {
