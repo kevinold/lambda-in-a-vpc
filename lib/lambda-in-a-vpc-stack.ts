@@ -6,7 +6,6 @@ import {
   aws_ec2 as ec2,
   aws_lambda as lambda,
 } from "aws-cdk-lib";
-import { Role } from "aws-cdk-lib/aws-iam";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 import path = require("path");
@@ -53,19 +52,7 @@ export class LambdaInAVpcStack extends Stack {
         vpc: vpc,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
         securityGroups: [lambdaSecurityGroup],
-        environment: {
-          // PGHOST: rdsProxy.endpoint,
-          // PGDATABASE: dbName,
-          // PGUSER: dbUsername
-        },
       }
-    );
-
-    // IAM role from Amplify Next.js app
-    const amplifyNextjsAppRole = Role.fromRoleArn(
-      this,
-      "AmplifyNextjsAppRole",
-      "arn:aws:iam::074128318641:role/service-role/AmplifySSRLoggingRole-d1kqtkp3qpk9bt"
     );
 
     new CfnOutput(this, "getDataLambdaArn", {
